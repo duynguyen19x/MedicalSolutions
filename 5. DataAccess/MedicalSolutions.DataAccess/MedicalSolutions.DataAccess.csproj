@@ -6,4 +6,17 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DAO\HIS\" />
+    <Folder Include="IDAO\HIS\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\4. Business\MedicalSolutions.BusinessModels\MedicalSolutions.BusinessModels.csproj" />
+  </ItemGroup>
+
 </Project>

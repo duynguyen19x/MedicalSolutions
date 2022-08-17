@@ -25,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalSolutions.DataAccess
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Business", "4. Business", "{861EB57D-5CF1-4A7D-BC73-055877B71EEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalSolutions.Business", "4. Business\MedicalSolutions.Business\MedicalSolutions.Business.csproj", "{5C2E8E2F-3E79-460E-9145-63B2910D844E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalSolutions.Business", "4. Business\MedicalSolutions.Business\MedicalSolutions.Business.csproj", "{5C2E8E2F-3E79-460E-9145-63B2910D844E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalSolutions.BusinessModels", "4. Business\MedicalSolutions.BusinessModels\MedicalSolutions.BusinessModels.csproj", "{15EC77D8-8914-4BFB-89D7-C8216EFEF22F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalSolutions.BusinessModels", "4. Business\MedicalSolutions.BusinessModels\MedicalSolutions.BusinessModels.csproj", "{15EC77D8-8914-4BFB-89D7-C8216EFEF22F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
