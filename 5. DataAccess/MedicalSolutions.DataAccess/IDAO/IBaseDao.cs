@@ -9,7 +9,6 @@ namespace MedicalSolutions.DataAccess.IDAO
 {
     public interface IBaseDao
     {
-        public ResultDto Add();
-        public ResultDto Edit();
+       
     }
 }
