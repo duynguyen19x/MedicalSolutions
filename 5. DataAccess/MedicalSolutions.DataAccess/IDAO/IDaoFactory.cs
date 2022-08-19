@@ -1,14 +1,14 @@
-﻿using MedicalSolutions.BusinessModels.Common;
+﻿using MedicalSolutions.DataAccess.IDAO.HIS.Dictionary;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MedicalSolutions.DataAccess.IDAO
 {
-    public interface IBaseDao
+    public interface IDaoFactory
     {
+        IUserDAO UserDAO { get; }
     }
 }

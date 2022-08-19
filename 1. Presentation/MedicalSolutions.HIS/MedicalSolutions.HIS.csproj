@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\2. Provider\MedicalSolutions.IProviders\MedicalSolutions.IProviders.csproj" />
-    <ProjectReference Include="..\MedicalSolutions.Models\MedicalSolutions.Models.csproj" />
   </ItemGroup>
 
 </Project>

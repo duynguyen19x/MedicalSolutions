@@ -1,4 +1,4 @@
-﻿namespace MedicalSolutions.Business
+﻿namespace MedicalSolutions.Models
 {
     public class Class1
     {

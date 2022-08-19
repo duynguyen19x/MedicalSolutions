@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace MedicalSolutions.BusinessModels.Common
 {
-    public class ResultDto
+    public class ResultDto<T>
     {
-        public object Result { get; set; }
+        public T Result { get; set; }
         public string Message { get; set; }
         public Guid? ResultId { get; set; }
         public int? Status { get; set; }
+        public int TotalCount { get; set; }
     }
 }
