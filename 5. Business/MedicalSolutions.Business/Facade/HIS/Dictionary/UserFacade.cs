@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MedicalSolutions.Business.Facade.HIS
+namespace MedicalSolutions.Business.Facade.HIS.Dictionary
 {
     public class UserFacade
     {
@@ -17,6 +17,11 @@ namespace MedicalSolutions.Business.Facade.HIS
         static UserFacade()
         {
             userDAO = new UserDAO();
+        }
+
+        public UserFacade()
+        {
+
         }
 
         public async Task<ResultDto<Guid>> Delete(Guid userId)

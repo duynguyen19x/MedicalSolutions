@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MedicalSolutions.Providers.Common
+namespace MedicalSolutions.Util.Common
 {
     public class ResultApi<T>
     {
         public T Result { get; set; }
+
         public string Message { get; set; }
     }
 }

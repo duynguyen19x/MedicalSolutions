@@ -7,12 +7,34 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MedicalSolutions.Providers.Common
+namespace MedicalSolutions.Util.Common
 {
     public class AppApi
     {
-        public static string token = string.Empty;
-        public static string baseUrl = string.Empty;
+        public static T GetAsync<T>(string url, bool isHeader = true)
+        {
+            var resultApi = new ResultApi<T>();
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(AppConfig.BaseUrl);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                if (isHeader)
+                    DefaultRequestHeaders(httpClient);
+
+                HttpResponseMessage response = httpClient.GetAsync(url).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonData = response.Content.ReadAsStringAsync().Result;
+                    if (!string.IsNullOrEmpty(jsonData))
+                        resultApi.Result = JsonConvert.DeserializeObject<T>(jsonData);
+                }
+            }
+
+            return resultApi.Result;
+        }
 
         public static T GetAsync<T, Y>(string url, Y para, bool isHeader = true)
         {
@@ -20,7 +42,7 @@ namespace MedicalSolutions.Providers.Common
 
             using (var httpClient = new HttpClient())
             {
-                httpClient.BaseAddress = new Uri(baseUrl);
+                httpClient.BaseAddress = new Uri(AppConfig.BaseUrl);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -50,7 +72,7 @@ namespace MedicalSolutions.Providers.Common
 
             using (var httpClient = new HttpClient())
             {
-                httpClient.BaseAddress = new Uri(baseUrl);
+                httpClient.BaseAddress = new Uri(AppConfig.BaseUrl);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 if (isHeader)
@@ -76,7 +98,7 @@ namespace MedicalSolutions.Providers.Common
 
             using (var httpClient = new HttpClient())
             {
-                httpClient.BaseAddress = new Uri(baseUrl);
+                httpClient.BaseAddress = new Uri(AppConfig.BaseUrl);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 if (isHeader)
@@ -102,7 +124,7 @@ namespace MedicalSolutions.Providers.Common
 
             using (var httpClient = new HttpClient())
             {
-                httpClient.BaseAddress = new Uri(baseUrl);
+                httpClient.BaseAddress = new Uri(AppConfig.BaseUrl);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -126,7 +148,7 @@ namespace MedicalSolutions.Providers.Common
 
         private static void DefaultRequestHeaders(HttpClient httpClient)
         {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{token}");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{AppConfig.AcceptToken}");
         }
 
         private static string ParaToString<T>(T para)
