@@ -19,35 +19,35 @@ namespace MedicalSolutions.WebApi.Controllers
         }
 
         // GET: api/<UserController>
-        [HttpGet]
+        [HttpGet("GetList")]
         public async Task<ResultDto<List<UserDto>>> GetList()
         {
             return await _userFacade.GetList();
         }
 
         // GET api/<UserController>/5
-        [HttpGet("{id}")]
+        [HttpGet("GetById")]
         public async Task<ResultDto<UserDto>> GetById(Guid id)
         {
             return await _userFacade.GetById(id);
         }
 
         // POST api/<UserController>
-        [HttpPost]
+        [HttpPost("Inserṭ")]
         public async Task<ResultDto<UserDto>> Inserṭ([FromBody] UserDto value)
         {
             return await _userFacade.Inserṭ(value);
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
+        [HttpPut("Update")]
         public async Task<ResultDto<UserDto>> Update([FromBody] UserDto value)
         {
             return await _userFacade.Update(value);
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete")]
         public async Task<ResultDto<Guid>> Delete(Guid id)
         {
             return await _userFacade.Delete(id);
