@@ -1,5 +1,4 @@
-﻿using MedicalSolutions.IProviders.HIS.Dictionary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,21 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MedicalSolutions.HIS
+namespace MedicalSolutions.HIS.Systems
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Login : Window
     {
-        public MainWindow()
+        public Login()
         {
             InitializeComponent();
-
-            //IUserProvider instance = Activator.CreateInstance<IUserProvider>();
         }
     }
 }
