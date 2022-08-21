@@ -46,8 +46,8 @@ namespace MedicalSolutions.WebApi.Controllers.HIS.Dictionary
             return await _userFacade.GetById(id);
         }
 
-        // GET api/<UserController>/5
-        [HttpGet("GetById")]
+        // HttpPost api/<UserController>/5
+        [HttpPost("GetById")]
         public async Task<ResultDto<UserDto>> GetByUser(UserDto user)
         {
             return await _userFacade.GetByUser(user);
