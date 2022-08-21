@@ -24,7 +24,7 @@ namespace MedicalSolutions.Business.Facade.HIS.Dictionary
 
         }
 
-        public async Task<ResultDto<Guid>> Delete(Guid userId)
+        public async Task<ResultDto<bool>> Delete(Guid userId)
         {
             return await userDAO.Delete(userId);
         }
@@ -32,6 +32,11 @@ namespace MedicalSolutions.Business.Facade.HIS.Dictionary
         public async Task<ResultDto<UserDto>> GetById(Guid userId)
         {
             return await userDAO.GetById(userId);
+        }
+
+        public async Task<ResultDto<UserDto>> GetByUser(UserDto user)
+        {
+            return await userDAO.GetByUser(user);
         }
 
         public async Task<ResultDto<List<UserDto>>> GetList()

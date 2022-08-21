@@ -12,8 +12,9 @@ namespace MedicalSolutions.DataAccess.IDAO.HIS.Dictionary
     {
         public Task<ResultDto<UserDto>> Inserṭ(UserDto user);
         public Task<ResultDto<UserDto>> Update(UserDto user);
-        public Task<ResultDto<Guid>> Delete(Guid userId);
+        public Task<ResultDto<bool>> Delete(Guid userId);
         public Task<ResultDto<List<UserDto>>> GetList();
         public Task<ResultDto<UserDto>> GetById(Guid userId);
+        public Task<ResultDto<UserDto>> GetByUser(UserDto user);
     }
 }

@@ -12,29 +12,46 @@ namespace MedicalSolutions.DataAccess.DAO.HIS.Dictionary
 {
     public class UserDAO : IUserDAO
     {
-        public async Task<ResultDto<Guid>> Delete(Guid userId)
+        public async Task<ResultDto<bool>> Delete(Guid userId)
         {
-            throw new NotImplementedException();
+            var resultDto = new ResultDto<bool>();
+
+            return await Task.FromResult(resultDto);
+        }
+
+        public async Task<ResultDto<UserDto>> GetByUser(UserDto user)
+        {
+            var resultDto = new ResultDto<UserDto>();
+
+            return await Task.FromResult(resultDto);
         }
 
         public async Task<ResultDto<UserDto>> GetById(Guid userId)
         {
-            throw new NotImplementedException();
+            var resultDto = new ResultDto<UserDto>();
+
+            return await Task.FromResult(resultDto);
         }
 
         public async Task<ResultDto<List<UserDto>>> GetList()
         {
-            throw new NotImplementedException();
+            var resultDto = new ResultDto<List<UserDto>>();
+
+            return await Task.FromResult(resultDto);
         }
 
         public async Task<ResultDto<UserDto>> Inserṭ(UserDto user)
         {
-            throw new NotImplementedException();
+            var resultDto = new ResultDto<UserDto>();
+
+            return await Task.FromResult(resultDto);
         }
 
         public async Task<ResultDto<UserDto>> Update(UserDto user)
         {
-            throw new NotImplementedException();
+            var resultDto = new ResultDto<UserDto>();
+
+            return await Task.FromResult(resultDto);
         }
     }
 }
