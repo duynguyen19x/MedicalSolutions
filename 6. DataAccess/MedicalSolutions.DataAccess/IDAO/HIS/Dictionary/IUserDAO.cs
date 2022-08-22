@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MedicalSolutions.DataAccess.IDAO.HIS.Dictionary
 {
-    public interface IUserDAO : IBaseDao
+    public interface IUserDao : IBaseDao
     {
         public Task<ResultDto<UserDto>> Inserṭ(UserDto user);
         public Task<ResultDto<UserDto>> Update(UserDto user);

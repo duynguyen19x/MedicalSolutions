@@ -1,5 +1,6 @@
 ﻿using MedicalSolutions.Business.Facade.HIS;
 using MedicalSolutions.Business.Facade.HIS.Dictionary;
+using MedicalSolutions.Business.Facade.HIS.Systems;
 using MedicalSolutions.BusinessModels.Common;
 using MedicalSolutions.BusinessModels.HIS.Dictionary;
 using MedicalSolutions.BusinessModels.HIS.Systems;
@@ -20,16 +21,19 @@ namespace MedicalSolutions.WebApi.Controllers.HIS.Dictionary
     public class UserController : ControllerBase
     {
         private readonly static UserFacade _userFacade;
+        private readonly static TokenFacade _tokenFacade;
         private AppSetting _appSetting;
 
         public UserController(IOptionsMonitor<AppSetting> optionsMonitor)
         {
-            _appSetting = optionsMonitor.CurrentValue;
+            if (_appSetting == null)
+                _appSetting = optionsMonitor.CurrentValue;
         }
 
         static UserController()
         {
             _userFacade = new UserFacade();
+            _tokenFacade = new TokenFacade();
         }
 
         // GET: api/<UserController>
@@ -83,18 +87,135 @@ namespace MedicalSolutions.WebApi.Controllers.HIS.Dictionary
             var result = await GetByUser(user);
             if (result != null)
             {
-                return new TokenDto()
+                var token = GenarateToken(user);
+
+                return token;
+            }
+
+            return null;
+        }
+
+        [HttpPost("RefreshToken")]
+        public async Task<ResultDto<TokenDto>> RefreshToken(TokenDto token)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var secretKeyBytes = Encoding.UTF8.GetBytes(_appSetting.SecretKey);
+            var tokenValidationParameters = new TokenValidationParameters()
+            {
+                // Tự cấp token
+                ValidateIssuer = false,
+                ValidateAudience = false,
+
+                // Ký vào token
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
+
+                // Set thời gian
+                ClockSkew = TimeSpan.Zero,
+                ValidateLifetime = false // không kiểm tra hết hạn
+            };
+
+            try
+            {
+                // Check valid format
+                var tokenInVerification = jwtTokenHandler.ValidateToken(token.AcceptToken, tokenValidationParameters, out var validatedToken);
+
+                // Kiểm tra thuật toán
+                if (validatedToken is JwtSecurityToken jwtSecurityToken)
                 {
-                    RefreshToken = await GenarateToken(user)
+                    var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512, StringComparison.InvariantCultureIgnoreCase);
+
+                    if (!result)
+                    {
+                        return new ResultDto<TokenDto>()
+                        {
+                            Message = "Invalid token",
+                            Status = null,
+                        };
+                    }
+                }
+
+                // Check acceptToken đã hoạt động chưa
+                var utcExpireDate = long.Parse(tokenInVerification.Claims.FirstOrDefault(f => f.Type == JwtRegisteredClaimNames.Exp).Value);
+                var expireDate = ConvertToDate(utcExpireDate);
+                if (expireDate >= DateTime.UtcNow)
+                {
+                    return new ResultDto<TokenDto>()
+                    {
+                        Message = "Access token has not yet expired"
+                    };
+                }
+
+                // Kiểm tra refreshToken có trong database ko?
+                var storedToken = await _tokenFacade.Get(token.RefreshToken); // RefreshToken = RefreshToken trong database
+                if (storedToken == null)
+                {
+                    return new ResultDto<TokenDto>()
+                    {
+                        Message = "Refresh token does not exist"
+                    };
+                }
+
+                // Kiểm tra refreshToken đã sử dụng hoặc thu hồi chưa
+                if (storedToken.IsUsed)
+                {
+                    return new ResultDto<TokenDto>()
+                    {
+                        Message = "Refresh token has been used"
+                    };
+                }
+                if (storedToken.IsRevoked)
+                {
+                    return new ResultDto<TokenDto>()
+                    {
+                        Message = "Refresh token has been revoked"
+                    };
+                }
+
+                // Kiểm tra Id có trong RefreshToken 
+                var jti = tokenInVerification.Claims.FirstOrDefault(f => f.Type == JwtRegisteredClaimNames.Jti).Value;
+                if (storedToken.Jti != jti)
+                {
+                    return new ResultDto<TokenDto>()
+                    {
+                        Message = "Token doesn't match"
+                    };
+                }
+
+                // Update token
+                storedToken.IsRevoked = true;
+                storedToken.IsUsed = true;
+                await _tokenFacade.Update(storedToken);
+
+                // Tạo token mới
+                var userById = ((await _userFacade.GetById(storedToken.UserId)).Result) as UserDto;
+                var tokenResult = GenarateToken(userById);
+
+                return new ResultDto<TokenDto>()
+                {
+                    Status = 1,
+                    Result = tokenResult
                 };
             }
-            else
+            catch (Exception ex)
             {
-                return null;
+                return new ResultDto<TokenDto>()
+                {
+                    Message = ex.Message,
+                    Status = null,
+                };
             }
         }
 
-        private async Task<string> GenarateToken(UserDto user)
+        private DateTime ConvertToDate(long utcExpireDate)
+        {
+            var dateTimeInterval = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            dateTimeInterval.AddSeconds(utcExpireDate).ToUniversalTime();
+
+            return dateTimeInterval;
+        }
+
+        private TokenDto GenarateToken(UserDto user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             var secretKeyBytes = Encoding.UTF8.GetBytes(_appSetting.SecretKey);
@@ -103,22 +224,51 @@ namespace MedicalSolutions.WebApi.Controllers.HIS.Dictionary
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("Id", user.Id.ToString()),
-                    new Claim("Code", user.Code),
+                    new Claim("Code", user.UserName),
                     new Claim(ClaimTypes.Name, user.FullName),
-                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
-
                     // Role
-
-                    new Claim("TokenId", Guid.NewGuid().ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha512Signature),
             };
 
             var token = jwtTokenHandler.CreateToken(tokenDescription);
+            var acceptToken = jwtTokenHandler.WriteToken(token);
+            var refreshToken = GenarateRefreshToken();
 
-            return await Task.FromResult(jwtTokenHandler.WriteToken(token));
+            // Lưu token
+            var tokenDto = new TokenDto()
+            {
+                Id = Guid.NewGuid(),
+                Jti = token.Id,
+                UserId = user.Id.GetValueOrDefault(),
+                AcceptToken = acceptToken,
+                RefreshToken = refreshToken,
+                IsUsed = false,
+                IsRevoked = false,
+                IssueAt = DateTime.UtcNow,
+                ExpiredAt = DateTime.UtcNow.AddSeconds(20),
+            };
+
+            var isInsertToken = _tokenFacade.Insert(tokenDto);
+
+            return new TokenDto()
+            {
+                AcceptToken = acceptToken,
+                RefreshToken = refreshToken,
+            };
+        }
+
+        private string GenarateRefreshToken()
+        {
+            var key = Guid.NewGuid().ToString().Replace("-", String.Empty);
+            var keyToBytes = Encoding.UTF8.GetBytes(key);
+
+            return Convert.ToBase64String(keyToBytes);
         }
     }
 }

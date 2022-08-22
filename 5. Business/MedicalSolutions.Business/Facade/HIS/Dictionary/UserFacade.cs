@@ -12,16 +12,11 @@ namespace MedicalSolutions.Business.Facade.HIS.Dictionary
 {
     public class UserFacade
     {
-        private readonly static IUserDAO userDAO;
+        private readonly static IUserDao userDAO;
 
         static UserFacade()
         {
-            userDAO = new UserDAO();
-        }
-
-        public UserFacade()
-        {
-
+            userDAO = new UserDao();
         }
 
         public async Task<ResultDto<bool>> Delete(Guid userId)

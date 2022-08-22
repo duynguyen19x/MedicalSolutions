@@ -9,6 +9,6 @@ namespace MedicalSolutions.DataAccess.IDAO
 {
     public interface IDaoFactory
     {
-        IUserDAO UserDAO { get; }
+        IUserDao UserDAO { get; }
     }
 }

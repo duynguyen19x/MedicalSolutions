@@ -11,6 +11,6 @@ namespace MedicalSolutions.DataAccess.DAO
 {
     internal class DaoFactory : IDaoFactory
     {
-        public IUserDAO UserDAO => new UserDAO();
+        public IUserDao UserDAO => new UserDao();
     }
 }

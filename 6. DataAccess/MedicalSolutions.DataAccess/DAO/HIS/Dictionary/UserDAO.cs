@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MedicalSolutions.DataAccess.DAO.HIS.Dictionary
 {
-    public class UserDAO : IUserDAO
+    public class UserDao : IUserDao
     {
         public async Task<ResultDto<bool>> Delete(Guid userId)
         {
