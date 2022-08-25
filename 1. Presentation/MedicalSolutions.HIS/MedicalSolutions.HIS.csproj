@@ -8,13 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\2. Util\MedicalSolutions.Utils\MedicalSolutions.Utils.csproj" />
-    <ProjectReference Include="..\..\3. Provider\MedicalSolutions.IProviders\MedicalSolutions.IProviders.csproj" />
-    <ProjectReference Include="..\..\3. Provider\MedicalSolutions.Providers\MedicalSolutions.Providers.csproj" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="View\" />
+    <ProjectReference Include="..\..\2. Util\MedicalSolutions.Utils\MedicalSolutions.Utils.csproj" />
+    <ProjectReference Include="..\MedicalSolutions.HIS.Base\MedicalSolutions.HIS.Base.csproj" />
   </ItemGroup>
 
 </Project>

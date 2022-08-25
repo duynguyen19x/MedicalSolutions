@@ -1,5 +1,4 @@
-﻿using MedicalSolutions.Providers.HIS.Dictionary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MedicalSolutions.HIS.Systems
+namespace MedicalSolutions.HIS.View.Systems
 {
     /// <summary>
     /// Interaction logic for Login.xaml

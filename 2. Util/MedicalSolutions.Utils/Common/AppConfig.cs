@@ -10,6 +10,6 @@ namespace MedicalSolutions.Util.Common
     {
         public static string AcceptToken { get; set; }
         public static string RefreshToken { get; set; }
-        public static string BaseUrl { get; set; } = @"https://localhost:7107/";
+        public static string BaseUrl { get; set; }
     }
 }

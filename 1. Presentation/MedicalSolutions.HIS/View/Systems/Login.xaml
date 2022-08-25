@@ -1,13 +1,19 @@
-﻿<Window x:Class="MedicalSolutions.HIS.Systems.Login"
+﻿<Window x:Class="MedicalSolutions.HIS.View.Systems.Login"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MedicalSolutions.HIS.Systems"
+        xmlns:local="clr-namespace:MedicalSolutions.HIS.View.Systems"
+        xmlns:vm="clr-namespace:MedicalSolutions.HIS.ViewModel.System"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="Login"
         Height="500"
-        Width="420">
+        Width="420"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:LoginVM />
+    </Window.DataContext>
     <Grid Background="#C6C6C6">
         <Grid Margin="30">
             <Grid.RowDefinitions>
@@ -42,7 +48,7 @@
                      BorderBrush="#615756"
                      BorderThickness="1"
                      Background="Transparent"
-                     Text="Tên đăng nhập hoặc Email"
+                     Text="{Binding LoginInfo.UserName}"
                      VerticalContentAlignment="Center"
                      Padding="6"
                      FontSize="16" />
@@ -52,7 +58,7 @@
                      BorderBrush="#615756"
                      BorderThickness="1"
                      Background="Transparent"
-                     Text="Mật khẩu"
+                     Text="{Binding LoginInfo.Password}"
                      Padding="6"
                      FontSize="16" />
 
@@ -62,14 +68,28 @@
                     Background="#106EEB"
                     Content="Đăng nhập"
                     Foreground="White"
-                    FontSize="16" />
+                    FontSize="16">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding LoginClickCommad}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
             <Button Grid.Row="5"
                     Height="40"
                     Margin="0"
                     Background="#F71305"
                     Content="Thoát"
                     Foreground="White"
-                    FontSize="16" />
+                    FontSize="16">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding ExitClickCommad}"
+                                               PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
 
             <CheckBox Grid.Row="6"
                       Margin="0 30 0 10"
