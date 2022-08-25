@@ -10,5 +10,6 @@ namespace MedicalSolutions.DataAccess.IDAO
 {
     public interface IBaseDao
     {
+
     }
 }
