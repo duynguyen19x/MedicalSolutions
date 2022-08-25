@@ -26,6 +26,13 @@ namespace MedicalSolutions.DataAccess.DAO.HIS.Dictionary
             return await Task.FromResult(resultDto);
         }
 
+        public async Task<ResultDto<UserDto>> GetByUserName(string username, string password)
+        {
+            var resultDto = new ResultDto<UserDto>() { Result = new UserDto() };
+
+            return await Task.FromResult(resultDto);
+        }
+
         public async Task<ResultDto<UserDto>> GetById(Guid userId)
         {
             var resultDto = new ResultDto<UserDto>();

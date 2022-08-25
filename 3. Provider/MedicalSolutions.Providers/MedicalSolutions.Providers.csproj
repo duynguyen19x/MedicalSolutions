@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MedicalSolutions.Util\MedicalSolutions.Util.csproj" />
+    <ProjectReference Include="..\..\1. Presentation\MedicalSolutions.Models\MedicalSolutions.Models.csproj" />
+    <ProjectReference Include="..\..\2. Util\MedicalSolutions.Utils\MedicalSolutions.Utils.csproj" />
     <ProjectReference Include="..\MedicalSolutions.IProviders\MedicalSolutions.IProviders.csproj" />
   </ItemGroup>
 

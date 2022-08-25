@@ -34,6 +34,11 @@ namespace MedicalSolutions.Business.Facade.HIS.Dictionary
             return await userDAO.GetByUser(user);
         }
 
+        public async Task<ResultDto<UserDto>> GetByUserName(string username, string password)
+        {
+            return await userDAO.GetByUserName(username, password);
+        }
+
         public async Task<ResultDto<List<UserDto>>> GetList()
         {
             return await userDAO.GetList();
@@ -41,7 +46,7 @@ namespace MedicalSolutions.Business.Facade.HIS.Dictionary
 
         public async Task<ResultDto<UserDto>> Inserṭ(UserDto user)
         {
-            return await userDAO.Inserṭ(user); 
+            return await userDAO.Inserṭ(user);
         }
 
         public async Task<ResultDto<UserDto>> Update(UserDto user)

@@ -9,8 +9,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.Common;
 using System.Collections.Concurrent;
-using Microsoft.Extensions.Configuration;
 using System.Threading;
+using Microsoft.Extensions.Configuration;
 
 namespace MedicalSolutions.DataAccess
 {
@@ -28,6 +28,9 @@ namespace MedicalSolutions.DataAccess
         {
             this._conn = new SqlConnection(_connectionString);
         }
+
+        //static IConfiguration conf = (new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build());
+        //public static string myValue1 = conf["MyValues:Value1"].ToString();
 
         public async Task<IReadOnlyList<dynamic>> QueryAsync(string sql, object para = null, IDbTransaction dbTransaction = null)
         {
