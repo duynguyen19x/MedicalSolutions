@@ -1,5 +1,6 @@
 ﻿using MedicalSolutions.BusinessModels.HIS.Systems;
 using MedicalSolutions.DataAccess.IDAO.HIS.Systems;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace MedicalSolutions.DataAccess.DAO.HIS.Systems
     {
         public async Task<bool> Insert(TokenDto token)
         {
+            IConfiguration ss = new ConfigurationManager().GetSection("AppSetting");
+
             return await Task.FromResult(true);
         }
 

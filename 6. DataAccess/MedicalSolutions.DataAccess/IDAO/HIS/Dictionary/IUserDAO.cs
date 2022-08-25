@@ -16,5 +16,6 @@ namespace MedicalSolutions.DataAccess.IDAO.HIS.Dictionary
         public Task<ResultDto<List<UserDto>>> GetList();
         public Task<ResultDto<UserDto>> GetById(Guid userId);
         public Task<ResultDto<UserDto>> GetByUser(UserDto user);
+        public Task<ResultDto<UserDto>> GetByUserName(string username, string password);
     }
 }

@@ -1,4 +1,4 @@
-﻿using MedicalSolutions.WebApi.Common;
+﻿using MedicalSolutions.BusinessModels.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
